@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 
-export function Counter() {
-
+export default function Counter() {
+    console.log('hello from counter')
     const [number, setNumber] = useState(1)
     const [user, setUser] = useState(null)
     const [maxNum, setMaxNum] = useState(null)
