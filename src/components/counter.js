@@ -1,8 +1,9 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
+import UserDetails from './userDetails.js';
 
-export default function Counter() {
-    console.log('hello from counter')
+export default function Counter(props) {
+    
     const [number, setNumber] = useState(1)
     const [user, setUser] = useState(null)
     const [maxNum, setMaxNum] = useState(null)
@@ -30,14 +31,16 @@ export default function Counter() {
             console.log(error);
         }
     }
-
+    
     useEffect(() => {
         getUser();
     }, [number])
+    
 
     return (
         <>
             <div>
+                <h1>{props.title}</h1>
                 <button onClick={decrementNum}>-</button>
                 <h1>{number}</h1>
                 <button onClick={incrementNum}>+</button>
@@ -48,6 +51,9 @@ export default function Counter() {
                         <pre>Address: {JSON.stringify(user.address.street)}</pre>
                     </>
                 )}
+
+                <UserDetails name={number}></UserDetails>
+                <input type="text" placeholder={props.placeholder}></input>
             </div>
         </>
     );

@@ -12,11 +12,17 @@ button {
 }
 
 button:hover {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
+    /* Green */
     color: white;
-  }
+}
 
-  pre {
-      padding-top: 50px;
-      font-size: 2em;
-  }
+pre {
+    padding-top: 50px;
+    font-size: 2em;
+}
+
+input {
+    margin-top: 30px;
+    font-size: 1.5em;
+}
