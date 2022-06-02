@@ -7,8 +7,8 @@ export const Context = createContext(null)
 function App() {
     return (
     <>
-        <Context.Provider value={"contextHello"}>
-        <Counter/>
+        <Context.Provider value={"Title"}>
+        <Counter />
         </Context.Provider>
         
     </>)
