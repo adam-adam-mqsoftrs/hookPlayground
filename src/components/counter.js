@@ -14,24 +14,25 @@ export default function Counter() {
     const [maxNum, setMaxNum] = useState(null)
     const [search, setSearch] = useState(null)
     const [seconds, setSeconds] = useState(0)
-    const timerId = useRef()
+    const timerId = useRef(null)
+    // console.log(timerId.current.click)
 
-    const startTimer = () => {
-        timerId.current = setInterval(() => {
-          setSeconds(prev => prev + 1);
-        }, 1000)
-      }
+    // const startTimer = () => {
+    //     timerId.current = setInterval(() => {
+    //       setSeconds(prev => prev + 1);
+    //     }, 1000)
+    //   }
 
-      const stopTimer = () => {
-        clearInterval(timerId.current);
-        timerId.current = 0;
-      }
+    //   const stopTimer = () => {
+    //     clearInterval(timerId.current);
+    //     timerId.current = 0;
+    //   }
     
-      const resetTimer = () => {
-        if (seconds) {
-          setSeconds(0);
-        }
-      }
+    //   const resetTimer = () => {
+    //     if (seconds) {
+    //       setSeconds(0);
+    //     }
+    //   }
 
     function incrementNum() {
         if (number === maxNum.length)
@@ -62,14 +63,12 @@ export default function Counter() {
     }
 
     useEffect(() => {
-        getUser();
-        setSearch();
-        if(seconds === 5){
-        resetTimer()
-        incrementNum()
-        }
-        
-    }, [number,seconds])
+        getUser();        
+    }, [number])
+
+    useEffect(() => {
+        setInterval(() => {timerId.current.click()},5000)
+    }, [])
 
     const getInputValue = (event) => {
 
@@ -88,13 +87,13 @@ export default function Counter() {
     return (
         <>
             <div>
-            <button onClick={startTimer}>Start</button>
-        <button onClick={stopTimer}>Stop</button>
-        <button onClick={resetTimer}>Reset</button>
+            {/* <button onClick={startTimer}>Start</button>
+            <button onClick={stopTimer}>Stop</button>
+            <button onClick={resetTimer}>Reset</button> */}
                 <h1>{seconds}</h1>
                 <button onClick={decrementNum}>-</button>
                 <h1>{number}</h1>
-                <button onClick={incrementNum}>+</button>
+                <button onClick={incrementNum} ref={timerId}>+</button>
                 <>{user &&
                     <Context.Provider
                         value={{
