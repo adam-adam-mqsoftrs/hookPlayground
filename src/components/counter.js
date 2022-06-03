@@ -13,26 +13,7 @@ export default function Counter() {
     const [userStreet, setUserStreet] = useState(null)
     const [maxNum, setMaxNum] = useState(null)
     const [search, setSearch] = useState(null)
-    const [seconds, setSeconds] = useState(0)
     const timerId = useRef(null)
-    // console.log(timerId.current.click)
-
-    // const startTimer = () => {
-    //     timerId.current = setInterval(() => {
-    //       setSeconds(prev => prev + 1);
-    //     }, 1000)
-    //   }
-
-    //   const stopTimer = () => {
-    //     clearInterval(timerId.current);
-    //     timerId.current = 0;
-    //   }
-    
-    //   const resetTimer = () => {
-    //     if (seconds) {
-    //       setSeconds(0);
-    //     }
-    //   }
 
     function incrementNum() {
         if (number === maxNum.length)
@@ -87,10 +68,7 @@ export default function Counter() {
     return (
         <>
             <div>
-            {/* <button onClick={startTimer}>Start</button>
-            <button onClick={stopTimer}>Stop</button>
-            <button onClick={resetTimer}>Reset</button> */}
-                <h1>{seconds}</h1>
+                <h1>{msg}</h1>
                 <button onClick={decrementNum}>-</button>
                 <h1>{number}</h1>
                 <button onClick={incrementNum} ref={timerId}>+</button>
@@ -107,8 +85,6 @@ export default function Counter() {
                 </>
                 <input onChange={getInputValue} type="text" placeholder="User search" />
                 <h1>{search}</h1>
-
-
             </div>
         </>
     );
