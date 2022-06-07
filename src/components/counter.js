@@ -12,29 +12,27 @@ export default function Counter() {
     const [userName, setUserName] = useState(null)
     const [userEmail, setUserEmail] = useState(null)
     const [userStreet, setUserStreet] = useState(null)
-    const [maxNum, setMaxNum] = useState(null)
+    const [allUsers, setallUsers] = useState(null)
     const [search, setSearch] = useState(null)
-    const timerId = useRef(null)
+    const incrementButtonRef = useRef(null)
     const inputRef = useRef(null)
     const toggleRef = useRef(null)
     const resultRef = useRef(null)
-    const [isChecked, setIsChecked] = useState(null)
-    var timer
+    const [isChecked, setIsChecked] = useState(false)
+    const [myInterval, setMyInterval] = useState(null)
 
     function incrementNum() {
-        if (number === maxNum.length)
-            console.log('User ID cannot be greater than', maxNum.length)
-        else {
-            setNumber(prevNumber => prevNumber + 1)
+        if (number === allUsers.length)
+            console.log('User ID cannot be greater than', allUsers.length)
 
-        }
+        setNumber(prevNumber => prevNumber + 1)
     }
 
     function decrementNum() {
         if (number === 1)
             console.log('User ID cannot be negative')
-        else
-            setNumber(prevNumber => prevNumber - 1)
+
+        setNumber(prevNumber => prevNumber - 1)
     }
 
     const getUser = async () => {
@@ -44,7 +42,7 @@ export default function Counter() {
             setUserName(response.data[number - 1].name);
             setUserEmail(response.data[number - 1].email);
             setUserStreet(response.data[number - 1].address.street);
-            setMaxNum(response.data);
+            setallUsers(response.data);
 
         } catch (error) {
             console.log(error);
@@ -55,21 +53,16 @@ export default function Counter() {
         getUser();
     }, [number])
 
-    useEffect(() => {
-        if (isChecked === true) {
-            timer = setInterval(() => { timerId.current.click() }, 1000)
 
-            console.log(isChecked)
-        }
-        else if (isChecked === false) {
-            console.log(isChecked)
-            clearInterval(timer)
-        }
+    useEffect(() => {
+        if (isChecked === false) 
+            clearInterval(myInterval)
+            
+        if (isChecked === true)
+            setMyInterval(setInterval(() => 
+            { incrementButtonRef.current.click() }, 1000))
+
     }, [isChecked])
-
-    useEffect(() => {
-
-    }, [search])
 
     function handleChecked() {
         setIsChecked(toggleRef.current.checked)
@@ -77,18 +70,21 @@ export default function Counter() {
 
     function handleChanged() {
         setSearch(inputRef.current.value)
-        for (let i = 0; i < maxNum.length; i++) {
+        for (let i = 0; i < allUsers.length; i++) {
 
-            let nameList = maxNum[i].name.toLowerCase()
-            var userNameList = maxNum[i].username.toLowerCase()
+            var nameList = allUsers[i].name.toLowerCase()
+            var userNameList = allUsers[i].username.toLowerCase()
 
             if (nameList.slice(0, 2) === search?.toLowerCase() || nameList === search?.toLowerCase()) {
-                setTargetUser(maxNum[i])
+                setTargetUser(allUsers[i])
                 resultRef.current.hidden = false
             }
             else if (userNameList.slice(0, 2) === search?.toLowerCase() || userNameList === search?.toLowerCase()) {
-                setTargetUser(maxNum[i])
+                setTargetUser(allUsers[i])
                 resultRef.current.hidden = false
+            }
+            else if (search?.length === 1) {
+                resultRef.current.hidden = true
             }
 
         }
@@ -105,7 +101,7 @@ export default function Counter() {
                 <br /><br />
                 <button onClick={decrementNum}>-</button>
                 <h1>{number}</h1>
-                <button onClick={incrementNum} ref={timerId}>+</button>
+                <button onClick={incrementNum} ref={incrementButtonRef}>+</button>
                 <>{user &&
                     <Context.Provider
                         value={{
@@ -117,12 +113,12 @@ export default function Counter() {
                     </Context.Provider>
 
                 }
-                    <input type="text" onChange={handleChanged} ref={inputRef} placeholder="User search"/>
+                    <input type="text" onChange={handleChanged} ref={inputRef} placeholder="User search" />
                     <h1 hidden={true} ref={resultRef}>
                         Username {JSON.stringify(targetUser?.username)}<br />
                         Name {JSON.stringify(targetUser?.name)}<br />
                         City {JSON.stringify(targetUser?.address.city)}<br />
-                        ZipCode {JSON.stringify(targetUser?.address.zipcode)}<br />
+                        Company Name  {JSON.stringify(targetUser?.company.name)}<br />
                     </h1>
                 </>
 
