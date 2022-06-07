@@ -7,7 +7,7 @@ export const Context = createContext(null)
 function App() {
     return (
     <>
-        <Context.Provider value={"Title"}>
+        <Context.Provider value={"Toggle Counter"}>
         <Counter />
         </Context.Provider>
         
