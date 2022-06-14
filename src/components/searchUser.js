@@ -11,15 +11,6 @@ export default function SearchUser() {
     const [targetUser, setTargetUser] = useState(null)
     const [allUsers, setallUsers] = useState(null)
 
-    // const getUser = async () => {
-    //     try {
-    //         const response = await axios.get(`https://jsonplaceholder.typicode.com/users`);
-    //         setallUsers(response.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     useEffect(() => {
         GetUser().then(data => {
             setallUsers(data)

@@ -1,14 +1,13 @@
 import { React, useState, useContext, useEffect, useRef } from 'react';
 import { Context } from '/home/adam-ubuntu/reactHOOKS/playground/src/App.js'
-import axios from 'axios';
 import UserDetails from './userDetails.js'
 import SearchUser from './searchUser.js';
+import { GetUser } from './getUsers';
 
 export default function Counter() {
 
     const msg = useContext(Context)
     const [number, setNumber] = useState(1)
-    const [user, setUser] = useState(null)
     const [userName, setUserName] = useState(null)
     const [userEmail, setUserEmail] = useState(null)
     const [userStreet, setUserStreet] = useState(null)
@@ -21,35 +20,26 @@ export default function Counter() {
     function incrementNum() {
         if (number === allUsers.length)
             console.log('User ID cannot be greater than', allUsers.length)
-
-        setNumber(prevNumber => prevNumber + 1)
+        else
+            setNumber(prevNumber => prevNumber + 1)
     }
 
     function decrementNum() {
         if (number === 1)
             console.log('User ID cannot be negative')
-
-        setNumber(prevNumber => prevNumber - 1)
-    }
-
-    const getUser = async () => {
-        try {
-            const response = await axios.get(`https://jsonplaceholder.typicode.com/users`);
-            setUser(response.data[number - 1]);
-            setUserName(response.data[number - 1].name);
-            setUserEmail(response.data[number - 1].email);
-            setUserStreet(response.data[number - 1].address.street);
-            setallUsers(response.data);
-
-        } catch (error) {
-            console.log(error);
-        }
+        else
+            setNumber(prevNumber => prevNumber - 1)
     }
 
     useEffect(() => {
-        getUser();
+        GetUser().then(data => {
+            setallUsers(data)
+            setUserName(data[number-1].name)
+            setUserEmail(data[number-1].email)
+            setUserStreet(data[number-1].address.street)
+        })
+        .catch(err => console.log(err))
     }, [number])
-
 
     useEffect(() => {
         if (isChecked === false) 
@@ -78,7 +68,7 @@ export default function Counter() {
                 <button onClick={decrementNum}>-</button>
                 <h1>{number}</h1>
                 <button onClick={incrementNum} ref={incrementButtonRef}>+</button>
-                <>{user &&
+                <>{allUsers &&
                     <Context.Provider
                         value={{
                             userName,
