@@ -7,11 +7,11 @@ export default function UserDetails() {
 
     return (
         <>
-        <div>
-            <pre>Name: {JSON.stringify(msg.userName)}</pre>
-            <pre>E-Mail: {JSON.stringify(msg.userEmail)}</pre>
-            <pre>Address: {JSON.stringify(msg.userStreet)}</pre>
-        </div>
+            <div>
+                <pre>Name: {JSON.stringify(msg.userName)}</pre>
+                <pre>E-Mail: {JSON.stringify(msg.userEmail)}</pre>
+                <pre>Address: {JSON.stringify(msg.userStreet)}</pre>
+            </div>
         </>
     );
 

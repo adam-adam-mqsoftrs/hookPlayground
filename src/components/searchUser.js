@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { GetUser } from './getUsers';
+import { GetUser } from './utils/getUsers';
+import { SrcUser } from './utils/search';
 
 
 export default function SearchUser() {
@@ -15,9 +15,9 @@ export default function SearchUser() {
         GetUser().then(data => {
             setallUsers(data)
         })
-        .catch(err => console.log(err))
+            .catch(err => console.log(err))
     }, [])
-    
+
     function handleChanged() {
 
         setSearch(inputRef.current.value)
@@ -26,30 +26,26 @@ export default function SearchUser() {
 
             var nameList = allUsers[i].name.toLowerCase()
             var userNameList = allUsers[i].username.toLowerCase()
+            var src = SrcUser(nameList, userNameList, search, i)
 
-            if (nameList.slice(0, 2) === search?.toLowerCase() || nameList === search?.toLowerCase()) {
-                setTargetUser(allUsers[i])
+            if (src !== null) {
+                setTargetUser(allUsers[src])
                 resultRef.current.hidden = false
             }
-            else if (userNameList.slice(0, 2) === search?.toLowerCase() || userNameList === search?.toLowerCase()) {
-                setTargetUser(allUsers[i])
-                resultRef.current.hidden = false
-            }
-            else if (search?.length === 1) {
-                resultRef.current.hidden = true
-            }
-
         }
+
     }
+
+
     return (
-    <>
-        <input type="text" onChange={handleChanged} ref={inputRef} placeholder="User search" />
-        <h1 hidden={true} ref={resultRef}>
-            Username <p>{JSON.stringify(targetUser?.username)}</p>
-            Name <p>{JSON.stringify(targetUser?.name)}</p>
-            City <p>{JSON.stringify(targetUser?.address.city)}</p>
-            Company Name  <p>{JSON.stringify(targetUser?.company.name)}</p>
-        </h1>
-    </>
+        <>
+            <input type="text" onChange={handleChanged} ref={inputRef} placeholder="User search" />
+            <h1 hidden={true} ref={resultRef}>
+                Username <p>{JSON.stringify(targetUser?.username)}</p>
+                Name <p>{JSON.stringify(targetUser?.name)}</p>
+                City <p>{JSON.stringify(targetUser?.address.city)}</p>
+                Company Name  <p>{JSON.stringify(targetUser?.company.name)}</p>
+            </h1>
+        </>
     );
 }

@@ -1,8 +1,8 @@
 import { React, useState, useContext, useEffect, useRef } from 'react';
 import { Context } from '/home/adam-ubuntu/reactHOOKS/playground/src/App.js'
-import UserDetails from './userDetails.js'
+import UserDetails from './utils/userDetails.js'
 import SearchUser from './searchUser.js';
-import { GetUser } from './getUsers';
+import { GetUser } from './utils/getUsers';
 
 export default function Counter() {
 
@@ -34,20 +34,19 @@ export default function Counter() {
     useEffect(() => {
         GetUser().then(data => {
             setallUsers(data)
-            setUserName(data[number-1].name)
-            setUserEmail(data[number-1].email)
-            setUserStreet(data[number-1].address.street)
+            setUserName(data[number - 1].name)
+            setUserEmail(data[number - 1].email)
+            setUserStreet(data[number - 1].address.street)
         })
-        .catch(err => console.log(err))
+            .catch(err => console.log(err))
     }, [number])
 
     useEffect(() => {
-        if (isChecked === false) 
+        if (isChecked === false)
             clearInterval(myInterval)
 
         if (isChecked === true)
-            setMyInterval(setInterval(() => 
-            { incrementButtonRef.current.click() }, 1000))
+            setMyInterval(setInterval(() => { incrementButtonRef.current.click() }, 1000))
 
     }, [isChecked])
 
