@@ -1,5 +1,6 @@
 import { React, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { GetUser } from './getUsers';
 
 
 export default function SearchUser() {
@@ -10,19 +11,22 @@ export default function SearchUser() {
     const [targetUser, setTargetUser] = useState(null)
     const [allUsers, setallUsers] = useState(null)
 
-    const getUser = async () => {
-        try {
-            const response = await axios.get(`https://jsonplaceholder.typicode.com/users`);
-            setallUsers(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // const getUser = async () => {
+    //     try {
+    //         const response = await axios.get(`https://jsonplaceholder.typicode.com/users`);
+    //         setallUsers(response.data);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     useEffect(() => {
-        getUser()
+        GetUser().then(data => {
+            setallUsers(data)
+        })
+        .catch(err => console.log(err))
     }, [])
-
+    
     function handleChanged() {
 
         setSearch(inputRef.current.value)
